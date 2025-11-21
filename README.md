@@ -39,6 +39,42 @@ Estos patrones deben aportar **correlación significativa** y **capacidad discri
 
 * **Visualización Bivariada Comparativa:** Diseñar y generar visualizaciones analíticas comparativas (Boxplots, Gráficos de Densidad) para contrastar las distribuciones de las variables predictivas clave (relacionadas con el volumen de datos, la duración y la frecuencia de acciones) en función del estado binario de la variable objetivo (tráfico normal vs. tráfico malicioso).
 * **Exploración de la Discriminalidad:** Utilizar el contraste visual para explorar la existencia de patrones distintivos o umbrales operativos que puedan ser postulado como indicadores potenciales y tempranos de actividad anómala o intrusión dentro de la infraestructura de red.
+
+---
+### **Conclusiones**
+1. **Ataques de Fuerza Bruta Son Rápidos y Automatizados**
+- **Insight:** Los ataques que se enfocan en la autenticación (alto número de failed_logins) están optimizados para ser lo más breves posible.
+
+- Hay una correlación inversa entre la cantidad de failed_logins y la duración total de la sesión (minutos_sesion): a medida que los fallos aumentan, el tiempo total de sesión disminuye (ej. la suma de duración cae drásticamente de 40k minutos en 1 fallo a 587 minutos en 5 fallos).
+
+- **Recomendación:** La defensa más efectiva contra estos ataques (probablemente de fuerza bruta) es el rate-limiting y el bloqueo inmediato ante umbrales bajos de fallos, ya que la corta duración confirma que son procesos automatizados y de alta velocidad.
+
+2. **Prioridad de Detección en Navegadores 'Unknown'**
+- **Insight:** Las sesiones registradas con un navegador 'Unknown' (desconocido) son desproporcionadamente sospechosas. Aunque este grupo tiene un volumen de sesiones bajo, presenta una proporción de ataques muy alta en comparación con navegadores comunes como Chrome o Firefox.
+
+- **Recomendación:** Se debe aplicar la política de seguridad más estricta (o el bloqueo preventivo) a cualquier sesión donde el browser_type sea 'Unknown', ya que esto indica el uso probable de scripts, bots o herramientas que no simulan un agente de usuario estándar.
+
+3. **Intensidad del Ataque vs. Intentos de Login FallidosComparación:** 
+attack_detected vs. failed_logins (a través de Box Plot o Estadísticas Descriptivas).
+
+- **Insight Clave:** La presencia de un ataque se correlaciona con una mayor dispersión y un promedio más alto de intentos de login fallidos.
+
+- **Detalle:** Las sesiones con ataques (attack_detected = 1) no solo tienen una mediana de fallos similar a las sesiones limpias, sino que muestran una mayor variabilidad y una fuerte presencia de outliers (hasta 13 intentos), mientras que las sesiones limpias rara vez superan los 7.
+- **Conclusión:** El número de intentos fallidos es un predictor funcional del ataque si se relaciona con el tiempo de las sesiones y dependiendo el comportamiento de cada usuario (probablemente fuerza bruta o relleno de credenciales). El modelo de detección debe configurarse con un umbral estricto (ej. $> 7$ fallos) para activar la alerta de ataque.
+
+4. **Encriptación Fuerte (AES) y la Frecuencia de AtaqueComparación:**  encryption_used vs. attack_detected.
+- **Insight Clave:** Los ataques están significativamente presentes en conexiones que utilizan el estándar de encriptación AES (fuerte y moderno), lo que sugiere que los atacantes están apuntando a sesiones de alto valor o que han encontrado formas de evadir la detección a pesar de la encriptación.
+- **Detalle:** Aunque DES es un estándar más antiguo y débil, AES (el más robusto) no disuade a los atacantes. Se encontró un volumen sustancial de ataques en sesiones encriptadas con AES, y la diferencia con DES podría no ser tan grande como se esperaría.
+- **Conclusión:** La fortaleza de la encriptación no debe ser un factor de confianza para la seguridad. Las reglas de detección deben ser igualmente estrictas para el tráfico encriptado con AES, asumiendo que el ataque puede ocurrir una vez que la sesión está establecida.
+
+5. **Reputación IP y Riesgo de Sesión** Comparación: ip_reputation_score vs. attack_detected (distribución de la puntuación).
+
+- **Insight Clave:** Los ataques no se concentran solo en IPs de mala reputación (puntuaciones bajas), sino que también ocurren en un rango amplio de reputación IP.
+
+- **Detalle:** Aunque las sesiones atacadas pueden mostrar una ligera tendencia hacia puntuaciones de reputación más bajas (IPs conocidas como riesgosas), existe una distribución considerable de ataques que provienen de IPs con reputación media o alta.
+
+- **Conclusión:** La reputación de la IP es útil, pero no suficiente. Los atacantes sofisticados utilizan VPNs, proxies de pago o hosts de cloud limpios para lanzar ataques, eludiendo los bloqueos basados únicamente en la reputación IP. El modelo debe depender de indicadores de comportamiento (como failed_logins y session_duration) para detectar a estos atacantes "silenciosos".
+
 ---
 ### Explicación de la estructura y diccionario de la base de datos
 ## **Variables categóricas:**
@@ -74,8 +110,8 @@ Representa el protocolo utilizado en la comunicación:
 ## Autores
   
 - **Julian David Rodríguez Ramírez**
--
--
+- **Sara Gabriela Chisaba Cárdenas**
+- **Alejandra Cortes Murillo**
 -
 
 ---
