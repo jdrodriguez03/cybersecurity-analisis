@@ -122,50 +122,9 @@ Abre tu terminal (Git Bash, PowerShell o CMD) y ejecuta:
 
 Una vez activado el entorno, instala todas las librerías necesarias (Pandas, Matplotlib, Seaborn, Jupyter, etc.) utilizando el archivo `requirements.txt`.
 
-```bash
+``bash
 pip install -r requirements.txt
 
-¡Claro! Aquí tienes el código Markdown para las instrucciones de tu archivo README.md. Estas instrucciones guiarán a cualquier usuario sobre cómo configurar el entorno y ejecutar el notebook principal.
-
-He incluido pasos para configurar un entorno virtual (recomendado) y ejecutar Jupyter.
-
-Markdown
-
-## 🚀 Ejecución y Análisis del Proyecto
-
-Para trabajar con este proyecto, es necesario configurar un entorno virtual de Python e instalar las dependencias requeridas.
-
-### 1. Requisitos Previos
-
-Asegúrate de tener instalado lo siguiente en tu sistema:
-
-* **Python 3.8+**
-* **pip** (Administrador de paquetes de Python)
-* **Git** (Opcional, si clonas el repositorio)
-
----
-
-### 2. Configuración del Entorno
-
-Sigue estos pasos para crear y activar un entorno virtual. Esto aísla las dependencias del proyecto de tu instalación principal de Python.
-
-#### A. Crear y Activar el Entorno
-
-Abre tu terminal (Git Bash, PowerShell o CMD) y ejecuta:
-
-| Sistema Operativo | Comando de Creación | Comando de Activación |
-| :--- | :--- | :--- |
-| **Windows** | `python -m venv venv` | `.\venv\Scripts\activate` |
-| **macOS/Linux** | `python3 -m venv venv` | `source venv/bin/activate` |
-
-*(El prefijo `(venv)` aparecerá en tu terminal, indicando que el entorno está activo.)*
-
-#### B. Instalar Dependencias
-
-Una vez activado el entorno, instala todas las librerías necesarias (Pandas, Matplotlib, Seaborn, Jupyter, etc.) utilizando el archivo `requirements.txt` (asumo que tienes uno en la raíz del proyecto).
-
-```bash
-pip install -r requirements.txt
 
 ### 3. Ejecutar el Notebook Principal
 El análisis completo y la limpieza de datos se encuentran en el archivo main.ipynb dentro de la carpeta src/.
@@ -173,7 +132,7 @@ El análisis completo y la limpieza de datos se encuentran en el archivo main.ip
 ####A. Iniciar Jupyter Notebook
 Desde la carpeta raíz de tu proyecto, inicia el servidor de Jupyter:
 
-```bash
+``bash
 jupyter notebook
 
 ####B. Abrir el Archivo
@@ -182,7 +141,7 @@ Tu navegador web se abrirá automáticamente en la interfaz de Jupyter. Navega a
 ###4. Finalizar el Entorno
 Cuando termines de trabajar, puedes desactivar el entorno virtual ejecutando:
 
-```bash
+``bash
 deactivate
 
 ---
