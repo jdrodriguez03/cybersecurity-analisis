@@ -67,12 +67,20 @@ attack_detected vs. failed_logins (a través de Box Plot o Estadísticas Descrip
 - **Detalle:** Aunque DES es un estándar más antiguo y débil, AES (el más robusto) no disuade a los atacantes. Se encontró un volumen sustancial de ataques en sesiones encriptadas con AES, y la diferencia con DES podría no ser tan grande como se esperaría.
 - **Conclusión:** La fortaleza de la encriptación no debe ser un factor de confianza para la seguridad. Las reglas de detección deben ser igualmente estrictas para el tráfico encriptado con AES, asumiendo que el ataque puede ocurrir una vez que la sesión está establecida.
 
+5. **Reputación IP y Riesgo de Sesión** Comparación: ip_reputation_score vs. attack_detected (distribución de la puntuación).
+
+- **Insight Clave:** Los ataques no se concentran solo en IPs de mala reputación (puntuaciones bajas), sino que también ocurren en un rango amplio de reputación IP.
+
+- **Detalle:** Aunque las sesiones atacadas pueden mostrar una ligera tendencia hacia puntuaciones de reputación más bajas (IPs conocidas como riesgosas), existe una distribución considerable de ataques que provienen de IPs con reputación media o alta.
+
+- **Conclusión:** La reputación de la IP es útil, pero no suficiente. Los atacantes sofisticados utilizan VPNs, proxies de pago o hosts de cloud limpios para lanzar ataques, eludiendo los bloqueos basados únicamente en la reputación IP. El modelo debe depender de indicadores de comportamiento (como failed_logins y session_duration) para detectar a estos atacantes "silenciosos".
+
 ---
 ## Autores
   
 - **Julian David Rodríguez Ramírez**
 - **Sara Gabriela Chisaba Cárdenas**
--
+- **Alejandra Cortes Murillo**
 -
 
 ---
